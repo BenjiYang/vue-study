@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!-- View层：视图（模版） -->
+<div id="app">
+    {{message}}
+</div>
+
+<!-- 1. 导入Vue.js -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script>
+    var testvm = new Vue({
+        el: "#app", // 绑定视图中的element locator 元素
+        // Model层：数据
+        data: {
+            message: "hello vue.js",
+        }
+    })
+</script>
+
+
+</body>
+</html>
