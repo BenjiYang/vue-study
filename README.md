@@ -94,40 +94,13 @@ Vue.js的核心是实现了MVVM模式，她扮演的角色就是ViewModel层，�
 
 ---
 ### v-bind
+参考: [v-bind 官方文档](https://cn.vuejs.org/v2/api/#v-bind)
+
 我们已经成功创建了第一个Vue应用！开起来这跟渲染一个字符串模板非常类似，但是Vue在背后做了大量工作。现在数据和DOM已经被建立了关联，所有东西都是响应式的。
 我们在控制台操作对象属性，界面可以实时更新！
 
 我们还可以使用**v-bind**来绑定元素特性！
 
-上代码
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>v-bind测试</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-</head>
-<body>
-
-<div id="app">
-    <span v-bind:title="message">   <!-- element元素前加"v-bind："，对应值使用Vue对象的data里的变量名-->
-        鼠标悬停几秒钟查看此处绑定的提示信息！
-    </span>
-</div>
-
-<script type="text/javascript">
-    var app = new Vue({
-        el: '#app', // 指定了DOM树下的元素scope
-        data: {
-            message: '页面加载于' + new Date().toLocaleString()
-        }
-    })
-</script>
-
-</body>
-</html>
-```
 你看到的v-bind等被称为指令。指令带有前缀v-，以表示它们是Vue提供的特殊特性。可能你已经猜到了，它们会在渲染的DOM上应用特殊的响应式行为。在这里，
 指令的意思是："将这个元素节点的title特性和Vue实例的message属性保持一致"。
 
@@ -135,9 +108,20 @@ Vue.js的核心是实现了MVVM模式，她扮演的角色就是ViewModel层，�
 
 ---
 ### v-if, v-else, v-else-if
+参考: [v-if 官方文档](https://cn.vuejs.org/v2/api/#v-if)
+
 Vue的条件判断语句v-if，v-else。
 
+---
 ### v-for
+参考: [v-for 官方文档](https://cn.vuejs.org/v2/api/#v-for)
+
 Vue的循环语句
 
+---
+### v-on 
+参考: [v-on 官方文档](https://cn.vuejs.org/v2/api/#v-on)
 
+Vue的事件，v-on语句可以监听DOM事件，并在触发时运行一些JavaScript代码。
+
+事件有Vue的事件，和前端页面本身的一些事件！我们这里的click是Vue事件，可以绑定到Vue的methods中的方法事件！
