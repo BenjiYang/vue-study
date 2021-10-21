@@ -7,7 +7,7 @@
 - MVVM源自于经典的MVC（Model-View-Controller）模式。MVVM的核心是**ViewModel**层，负责转换Model中的数据对象来让数据变得更容易管理和使用，其作用如下：
     - ModelView层向上与View层进行双向数据绑定
     - ModelView层向下与Model层通过接口请求进行数据交互
-![chapter-1_MVVM.jpg](chapter-1/chapter-1_MVVM.jpg)
+![chapter-1_MVVM.jpg](chapter-1/ReadMe_MVVM.jpg)
 PS: Vue不改变DOM元素，双向绑定，前端View数据改动可以通过ViewModel直接反应传递到后端Model，反之亦然。操作DOM影响性能。
 
 MVVM已经相当成熟了，主要运用但不仅仅在网络应用程序开发中。丹霞流行但MVVM框架有Vue.js，AngularJS等
@@ -18,7 +18,7 @@ MVVM已经相当成熟了，主要运用但不仅仅在网络应用程序开发�
         - 独立开发：前端UI开发人员可以专注于业务逻辑和数据的开发（ViewModel），UI设计人员可以专注于页面设计。
         - 可测试：界面速来比较难于测试的，二现在测试可以针对ViewModel来写。
 - MVVM的组成部分
-![chapter-1_MVVM组成部分.jpg](chapter-1/chapter-1_MVVM组成部分.jpg)
+![chapter-1_MVVM组成部分.jpg](chapter-1/ReadMe_MVVM组成部分.jpg)
 
 #### View
 **View**是视图层，也就是用户界面。前端主要由*HTML*和*CSS*来构建，为了更方便地展现*ViewModel*或者*Model*层的数据，已经产生了各种各样的前后端模板语言，
@@ -134,4 +134,7 @@ Vue.js的核心是实现了MVVM模式，她扮演的角色就是ViewModel层，�
 如果你再次打开浏览器的控制台，输入app.message="update"，就会再一次看到这个绑定了title特性的HTML已经进行了更新。
 
 ---
+### v-if, v-else
+Vue的条件判断语句v-if，v-else。
 
+上代码
