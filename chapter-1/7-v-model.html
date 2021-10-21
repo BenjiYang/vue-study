@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-model</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    1. input(text)标签输入的文本：<input type="text" v-model="message">
+
+    <p/>
+    2. textarea标签输入的文本：<textarea v-model="message"></textarea>
+    <h3>您输入的信息为：{{message}}</h3>
+
+    <p/>
+    3. input(radio)标签单选框选择的选项：
+    <!-- v-model="sexChecked" 与 value="男性别" 绑定-->
+    <input type="radio" name="sex" value="男性别" v-model="sexChecked"> 男
+    <input type="radio" name="sex" value="女性别" v-model="sexChecked"> 女
+    <h3>选中了谁：{{sexChecked}}</h3>
+
+    <p/>
+    4. select标签下拉框选择的选项：
+    <select name="" id="" v-model="dropdown">
+        <!-- 注意：如果v-model表达式的初始值未能匹配任何选项，<select>元素将被渲染为"未选择"状态。在iOS中，这回使用户无法选择第一个选项，
+        因为这样的情况下，iOS不会触发change事件。因此，更推荐像上面这样提供一个值为空的金庸选项。 -->
+        <option value="" disabled>--请选择--</option>
+        <option>A</option>
+        <option selected>B</option> <!-- 默认选中 selected, 会被Vue覆盖成默认''-->
+        <option>C</option>
+    </select>
+    <h3>下拉框选项选中了谁：{{dropdown}}</h3>
+
+</div>
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            message: "默认值123",
+            sexChecked: '默认未选性别',
+            dropdown: ''   // 此处值在下拉框option的值无匹配的话，则默认UI下拉框选择空
+        }
+    })
+</script>
+
+</body>
+</html>
