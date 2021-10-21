@@ -134,7 +134,10 @@ Vue.js的核心是实现了MVVM模式，她扮演的角色就是ViewModel层，�
 如果你再次打开浏览器的控制台，输入app.message="update"，就会再一次看到这个绑定了title特性的HTML已经进行了更新。
 
 ---
-### v-if, v-else
+### v-if, v-else, v-else-if
 Vue的条件判断语句v-if，v-else。
 
-上代码
+### v-for
+Vue的循环语句
+
+
