@@ -141,9 +141,25 @@ Vue.js是一个MVVM框架，即数据双向绑定，即数据变化的时候，�
 
 #### 在表单中使用双向数据绑定
 参考: [v-model 官方文档](https://cn.vuejs.org/v2/api/#v-model)
-
+```
 你可以用**v-model**指令在表单<input>、<textarea>及<select>元素上创建双向数据绑定。它会根据空间类型自动选取正确的方法来更新元素。尽管有些神奇，
 但v-model本质上不过是语法糖。它负责监听用户输入事件以更新数据，并对一些极端场景进行一些特殊处理。
 
 注意：v-model会忽略所有表单元素但value、checked、selected特性但初始值而总是将Vue实例的数据作为数据来源。你应该通过JavaScript在组件但data选项中声明初始值！
+```
 
+---
+### Vue组件
+#### 什么是组件
+组件是可服用的vue实例，说白了就是一组可以重复使用的模板，跟JSTL的自定义标签、Thymeleaf的th:fragment等框架有着异曲同工之妙。通常一个应用会以一颗
+嵌套的组件树的形式来组织。
+
+#### 第一个Vue组件
+参考：[Vue.Component 官方文档](https://cn.vuejs.org/v2/guide/components.html)
+
+注意：在实际开发中，我们并不会用以下方式开发组件，而是采用vue-cli创建.vue模板文件的方式开发，以下方法是为了让大家理解什么是组件。
+
+说明：
+- Vue.component()：注册组件
+- my-component-li：自定义组件的名字
+- template：组件的模板
