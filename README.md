@@ -91,3 +91,47 @@ Vue.js的核心是实现了MVVM模式，她扮演的角色就是ViewModel层，�
 
 由此就可以在控制台来直接修改值，中间是可以省略data的，在这个操作中，我并没有主动操作DOM，就让页面的内容发生了变化，这就是接住了Vue的数据绑定功能
 实现的；MVVM模式中要求ViewModel层就是使用观察者模式来实现数据的监听与绑定，以做到数据与视图的快速相应。
+
+---
+### v-bind
+我们已经成功创建了第一个Vue应用！开起来这跟渲染一个字符串模板非常类似，但是Vue在背后做了大量工作。现在数据和DOM已经被建立了关联，所有东西都是响应式的。
+我们在控制台操作对象属性，界面可以实时更新！
+
+我们还可以使用**v-bind**来绑定元素特性！
+
+上代码
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-bind测试</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <span v-bind:title="message">   <!-- element元素前加"v-bind："，对应值使用Vue对象的data里的变量名-->
+        鼠标悬停几秒钟查看此处绑定的提示信息！
+    </span>
+</div>
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app', // 指定了DOM树下的元素scope
+        data: {
+            message: '页面加载于' + new Date().toLocaleString()
+        }
+    })
+</script>
+
+</body>
+</html>
+```
+你看到的v-bind等被称为指令。指令带有前缀v-，以表示它们是Vue提供的特殊特性。可能你已经猜到了，它们会在渲染的DOM上应用特殊的响应式行为。在这里，
+指令的意思是："将这个元素节点的title特性和Vue实例的message属性保持一致"。
+
+如果你再次打开浏览器的控制台，输入app.message="update"，就会再一次看到这个绑定了title特性的HTML已经进行了更新。
+
+---
+
