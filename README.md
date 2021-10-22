@@ -93,7 +93,7 @@ Vue.js的核心是实现了MVVM模式，她扮演的角色就是ViewModel层，�
 实现的；MVVM模式中要求ViewModel层就是使用观察者模式来实现数据的监听与绑定，以做到数据与视图的快速相应。
 
 ---
-### v-bind
+### v-bind （数据绑定）
 参考: [v-bind 官方文档](https://cn.vuejs.org/v2/api/#v-bind)
 
 我们已经成功创建了第一个Vue应用！开起来这跟渲染一个字符串模板非常类似，但是Vue在背后做了大量工作。现在数据和DOM已经被建立了关联，所有东西都是响应式的。
@@ -107,19 +107,19 @@ Vue.js的核心是实现了MVVM模式，她扮演的角色就是ViewModel层，�
 如果你再次打开浏览器的控制台，输入app.message="update"，就会再一次看到这个绑定了title特性的HTML已经进行了更新。
 
 ---
-### v-if, v-else, v-else-if
+### v-if, v-else, v-else-if （判断）
 参考: [v-if 官方文档](https://cn.vuejs.org/v2/api/#v-if)
 
 Vue的条件判断语句v-if，v-else。
 
 ---
-### v-for
+### v-for （循环）
 参考: [v-for 官方文档](https://cn.vuejs.org/v2/api/#v-for)
 
 Vue的循环语句
 
 ---
-### v-on 
+### v-on （事件）
 参考: [v-on 官方文档](https://cn.vuejs.org/v2/api/#v-on)
 
 Vue的事件，v-on语句可以监听DOM事件，并在触发时运行一些JavaScript代码。
@@ -127,7 +127,7 @@ Vue的事件，v-on语句可以监听DOM事件，并在触发时运行一些Java
 事件有Vue的事件，和前端页面本身的一些事件！我们这里的click是Vue事件，可以绑定到Vue的methods中的方法事件！
 
 ---
-### Vue：表单双绑、组件
+### Vue：表单双绑、组件 （双向绑定）
 #### 什么事双向数据绑定？
 Vue.js是一个MVVM框架，即数据双向绑定，即数据变化的时候，视图也就发生变化，当视图发生变化的时候，数据也会跟着同步变化。这也算是Vue.js的精髓之处了。
 
@@ -149,7 +149,7 @@ Vue.js是一个MVVM框架，即数据双向绑定，即数据变化的时候，�
 ```
 
 ---
-### Vue组件
+### Vue组件 （组件）
 #### 什么是组件
 组件是可服用的vue实例，说白了就是一组可以重复使用的模板，跟JSTL的自定义标签、Thymeleaf的th:fragment等框架有着异曲同工之妙。通常一个应用会以一颗
 嵌套的组件树的形式来组织。
@@ -163,3 +163,69 @@ Vue.js是一个MVVM框架，即数据双向绑定，即数据变化的时候，�
 - Vue.component()：注册组件
 - my-component-li：自定义组件的名字
 - template：组件的模板
+
+---
+### Vue: Axios异步通信 （网络通信）
+#### 什么是Axios
+Axios是一个开源的可以用在不同浏览器端和node.js的异步通信框架，她的主要作用就是实现AJAX异步通信，其功能特点如下：
+- 从浏览器中创建XMLHttpRequests
+- 从node.js创建http请求
+- 支持Promise API【JS中链式编程】
+- 拦截请求和响应
+- 转换请求数据和响应数据
+- 取消请求
+- 自动转换JSON数据
+- 客户端支持防御XSRF（跨站请求伪造）
+
+参考：[axios官网](https://axios-http.com/zh/docs/intro), [axios源代码](https://github.com/axios/axios)
+
+#### 为什么要使用Axios
+由于Vue.js是一个视图层框架并且作者（尤雨溪）严格遵守SoC（关注度分离原则），所以Vue.js并不包含AJAX的通信功能，为了解决通信问题，作者单独开发了一
+个名为vue-resource的插件，不过在进入2.0版本以后停止了对该插件的维护并推荐来Axios框架。少用jQuery，因为jQuery操作DOM太频繁！
+
+#### 第一个Axios应用程序
+咱们开发的接口大部分都是采用JSON格式，可以先在项目里模拟一段JSON数据，数据内容如下：创建一个名为data.json的文件并填入下面的内容，放在项目的根目录下
+```json
+{
+  "name": "狂神说Java",
+  "url": "https://blog.kuangstudy.com",
+  "page": 1,
+  "isNonProfit": true,
+  "address": {
+    "street": "含光门",
+    "city": "陕西西安",
+    "country": "中国"
+  },
+  "links": [
+    {
+      "name": "bilibili",
+      "url": "https://space.bilibili.com/95256449"
+    },
+    {
+      "name": "博客",
+      "url": "https://blog.kuangstudy.com"
+    },
+    {
+      "name": "百度",
+      "url": "https://www.baidu.com/"
+    }
+  ]
+}
+```
+
+html说明：
+
+1. 在这里使用了v-bind将a:href的属性值与Vue实例中的数据进行绑定
+2. 使用axios框架的get方法请求AJAX并自动将数据封装进了Vue实例的数据对象中
+3. 我们在data中的数据结构必须和Ajax响应回来的数据格式匹配！
+
+---
+### Vue的生命周期
+参考：[Vue生命周期官网文档](https://cn.vuejs.org/v2/guide/instance.html#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%9B%BE%E7%A4%BA)
+
+Vue实例有一个完整的生命周期，也就是从开始创建、初始化数据、编译模板、挂载DOM、渲染->更新->渲染、卸载等一系列过程，我们称这是Vue的生命周期。通俗说
+就是Vue实例从创建到销毁的过程，就是生命周期。
+
+在Vue的整个生命周期中，它提供了一系列的事件，可以让我们在事件触发时注册JS方法，可以让我们自己注册的JS方法控制整个大局，在这些事件响应方法中的this
+直接指向的是Vue的实例。
+![ReadMe_Vue生命周期.jpg](chapter-1/ReadMe_Vue生命周期.jpg)

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue.axios, v-cloak</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>     <!-- 导入Vue包 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>    <!-- 导入axios包 -->
+
+    <!-- v-cloak: 解决低俗网络下页面渲染先显示模板变量名后渲染的闪烁问题 -->
+    <!-- Docs: https://cn.vuejs.org/v2/api/#v-cloak -->
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="app" v-cloak>
+    <div>{{info.name}}</div>
+    <div>{{info.address.street}}</div>
+
+    <a v-bind:href="info.url">JSON中的URL链接</a>
+
+    <div>{{other}}</div>
+</div>
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        // 1.1 data写法1
+        data: {
+            info: {
+                name: null,
+                url: null,
+                address: {
+                    street: "data1",    // 定义默认值，其实会被json的response覆盖，任意值或null均可
+                    city: null,
+                    country: null
+                }
+            },
+            other: "other data test 1"  // 前者内容，从上往下执行顺序，被后者data return执行的时候覆盖
+        },
+        // 1.2 data写法2
+        data() {
+            return {
+                // 请求的返回参数格式，必须和json字符串一样
+                info: {
+                    name: null,
+                    url: null,
+                    address: {
+                        street: null,
+                        city: null,
+                        country: null
+                    }
+                },
+                other: "other data test 2"  // 根据执行顺序，后者执行的将为最终的结果
+            }
+        },
+        // 2. mounted是钩子函数（创建、挂载、更新、销毁）之一。
+        mounted() {
+            /* 3. 使用Axios方法，链式编程方式，可以直接.then（）.*** */
+            axios.get('../data.json').then(response => (this.info = response.data));  // this的对象属性info，用响应结果来赋值
+        }
+    })
+</script>
+
+</body>
+</html>
