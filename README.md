@@ -258,6 +258,54 @@ Vue实例有一个完整的生命周期，也就是从开始创建、初始化�
 #### 测试
 比如准备只做一个待办事项组件（todo)，该组件待办标题（todo-title）和待办内容（todo-items）组成，但这三个组件又是相互独立的，该如何操作呢？
 
-请阅读11-slot.html代码
+请阅读11-slot_内容分发和自定义事件.html代码
 
 说明：我们的todo-title和todo-items组件分别被分发到了todo组件的todo-title和todo-items插槽中
+
+---
+### 自定义事件
+通过以上代码不难发现，数据项在Vue的实例中，但删除操作要在组件中完成，那么组件如何才能删除Vue实例中的数据呢？
+此时就涉及到参数传递与事件分发了，Vue为我们提供了自定义事件的功能很好的帮助我们解决了这个问题：
+使用**this.$emit('自定义事件名',参数)**，操作过程如下：
+
+1. 在Vue的实例中，增加了methods对象并定义了一名为removeTodoItems的方法
+
+2. 修改todo-items待办内容组件的代码，增加一个删除按钮，并且绑定事件！
+
+3. 修改todo-items待办内容组件的代码，增加一个自定义事件，可以和组件方法绑定，然后绑定到Vue方法中！
+
+---
+### Vue小结
+核心： 数据驱动，组件化
+
+优点：借鉴了AngularJS的模块化开发和React的虚拟DOM，虚拟DOM就是把DOM操作放到内存中执行；
+
+常用的属性：
+- v-bind：给组件绑定参数，简写 <:组件属性名="Vue实例变量名">
+- v-if：判断
+- v-else-if：判断
+- v-if：判断
+- v-for：循环
+- v-on: 事件绑定，简写<@事件名="Vue实例方法">
+- v-model: 数据双向绑定
+- v-cloak: 披风，用来定义CSS掩盖渲染前的胡子(e.g. {{message}} )
+- Vue.component('组件名', {组件对象：props, template, methods})
+- Vue.component - slot插槽
+- Vue.component - slot插槽和自定义事件(语法：**this.$emit("自定义事件名",参数)**)来触发来调用Vue实例方法
+- computed - 计算属性特色，缓存计算数据
+- Axios - 异步通信。遵循SoC关注度分离原则，Vue是纯粹的视图框架，并不包含类似如Ajax的通信功能，为了解决通信问题，我们需要Axios框架做异步通信
+
+入门后学习方向
+- vue-cli：脚手架
+- vue-router：路由
+- vuex：状态管理（session/ cookies)
+
+
+#### 说明
+Vue的开发都是要基于Node.js，实际开发采用vue-cli脚手架开发，vue-router路由，vuex做状态管理；Vue UI界面我们一般使用ElementUI（饿了么出品），
+或者ICE（阿里巴巴出品）来快速搭建前端项目。
+
+[ElementUI官网](https://element.eleme.cn/#/zh-CN)
+
+[ICE阿里巴巴飞冰官网](https://ice.work/)
+

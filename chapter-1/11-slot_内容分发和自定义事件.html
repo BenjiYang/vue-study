@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>slot_内容分发和自定义事件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>     <!-- 导入Vue包 -->
+
+</head>
+<body>
+
+<!-- 最终想要的样式
+<div id="app">
+    <p>列表书籍</p>
+    <ul>
+        <li>Java</li>
+        <li>Linux</li>
+        <li>Python</li>
+    </ul>
+</div>
+-->
+
+<!-- 视图层，id=app，它已经和对应Vue实例绑定 -->
+<div id="app">
+    <!-- todo组件 -->
+    <todo>
+        <!-- title组件：1）与插槽1绑定，则title组件的template内容将替换todo组件下的插槽1；2）绑定Vue实例提供的数据 -->
+        <todo-title slot="slot-1" v-bind:prop_title="title"></todo-title>
+        <!-- items组件：1）与插槽2绑定，则items组件的template内容将替换todo组件下的插槽2；2）遍历Vue实例的内容且绑定为template入参；3）v-on:自定义事件，调用Vue实例方法来删除对象-->
+        <!-- 3⃣️： 视图层监听到自定义事件customize_remove_event时，触发Vue实例到方法来移除内容 -->
+        <todo-items slot="slot-2" v-for="(item,index) in todoItems" v-bind:prop_item="item" v-bind:prop_index="index" v-on:customize_remove_event="removeItems(index)"></todo-items>
+    </todo>
+</div>
+
+<script type="text/javascript">
+    // to-do组件，包含slot-1和slot-2插槽用来容纳其它模板组件
+    Vue.component("todo", {
+        template:
+            "<div>" +
+            "    <slot name='slot-1'></slot>" +       // <slot></slot> 替换<p></p>，name='组件名'
+            "    <ul>" +
+            "        <slot name='slot-2'></slot>" +   // <slot></slot> 替换<li></li>，name='组件名'
+            "    </ul>" +
+            "</div>"
+    });
+
+    // Title组件，用来插入到slot-1
+    Vue.component("todo-title", {
+        props: ['prop_title'],  // 输入数据形式参数：prop_title
+        template: '<div>{{prop_title}}</div>'
+    });
+
+    // Items组件，用来插入到slot-2
+    Vue.component("todo-items", {
+        props: ['prop_item', 'prop_index'],  // 输入数据形式参数：prop_item
+        // template 里面的v-on事件，只能绑定当前组件的methods方法
+        // 1⃣️：组件模板按钮你点击调用remove组件方法 （组件与前端通过slot绑定）
+        template: '<li>{{prop_index}}---{{prop_item}} <button v-on:click="remove">删除</button></li>',
+        methods: {
+            remove: function (prop_index) {
+                // alert("Component组件-删除按钮点击了");
+                // 2⃣️：组件remove方法，raise来一个自定义事件给到视图层
+                this.$emit('customize_remove_event',prop_index);
+            }
+        }
+    });
+
+
+    // new Vue实例需要放在component后面，否则根据执行顺序会报错未注册component
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            title: '列表书籍',
+            todoItems: ['Java', 'Linux', 'Python']
+        },
+        methods: {
+            // 4⃣️：前端：通过组件的自定义事件触发到Vue实例方法（Vue实例与前端绑定），然后删除了item
+            removeItems: function (index) {
+                // alert("Vue实例-删除按钮点击了");
+                // splice() 万能JavaScript数组操作文档：https://www.w3school.com.cn/jsref/jsref_splice.asp
+                console.log("删除了 " + this.todoItems[index] + "，删除OK");
+                this.todoItems.splice(index, 1); // 一次删除一个元素
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
