@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>computed_计算属性</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>     <!-- 导入Vue包 -->
+
+</head>
+<body>
+
+<div id="app">
+    <!-- 调用methods里的函数，格式为：{{函数名()}} -->
+    <p>{{currentTimeFromMethods()}}</p>
+    <!-- 调用computed里的计算属性，格式为：{{属性名}}-->
+    <p>{{currentTimeFromComputed}}</p>
+</div>
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            message: "hello"
+        },
+        methods: {
+            currentTimeFromMethods: function () {
+                return "methods当前时间戳为：" + Date.now();  // 返回一个时间戳
+            }
+        },
+        // 注意methods和computed里的方法名不能重名，否则只执行methods里的函数，这里没有顺序之分。
+        computed: { // 这里的计算就是个函数；简单点说，它就是一个能够将计算结果缓存起来的属性（将行为装换成了静态的属性），仅此而已；可以想像成缓存！
+            currentTimeFromComputed: function () {
+                // 增加一条与数据联动的语句this.message; 只要message属性变化，则计算属性相应执行改动。
+                this.message;
+                return "computed当前时间戳为：" + Date.now();  // 返回一个时间戳
+            }
+        }
+    })
+</script>
+
+</body>
+</html>
