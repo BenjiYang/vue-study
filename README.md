@@ -309,3 +309,163 @@ Vue的开发都是要基于Node.js，实际开发采用vue-cli脚手架开发，
 
 [ICE阿里巴巴飞冰官网](https://ice.work/)
 
+---
+### Vue：第一个vue-cli项目
+#### 什么是vue-cli
+vue-cli是官方提供的一个脚手架，用于快速生成一个vue的项目模板；
+
+预先定义好的目录结构及基础代码，就好比咱们在穿件Maven项目时可以选择创建一个骨架项目，这个骨架项目就是脚手架，脚手架使我们的开发更加快速；
+
+主要的功能：
+- 统一的目录结构
+- 本地调试
+- 热部署
+- 单元测试
+- 集成打包上线
+
+#### 需要的环境
+- node.js： http://nodejs.cn/download/
+
+MAC卸载干净node/npm，后使用nvm形式安装避免版本的坑，参考如下两篇文章：
+
+[stackoverflow - 完整删除node](https://stackoverflow.com/questions/11177954/how-do-i-completely-uninstall-node-js-and-reinstall-from-beginning-mac-os-x)
+
+[CSDN - 完整删除node后，MAC通过 brew 管理 nvm，再通过 nvm 管理 node，方便干净](https://blog.csdn.net/qq_21237549/article/details/109232491)
+
+MAC完整卸载node/npm/nvm
+```
+$ sudo rm -rf /usr/local/bin/npm /usr/local/share/man/man1/node* /usr/local/lib/dtrace/node.d ~/.npm ~/.node-gyp
+
+/*
+1. go to /usr/local/lib and delete any node and node_modules
+2. go to /usr/local/include and delete any node and node_modules directory
+3. if you installed with brew install node, then run brew uninstall node in your terminal
+3. check your Home directory for any local or lib or include folders, and delete any node or node_modules from there
+4. go to /usr/local/bin and delete any node executable
+*/
+
+$ sudo rm -rf /opt/local/bin/node /opt/local/include/node /opt/local/lib/node_modules
+$ sudo rm -rf /usr/local/bin/npm /usr/local/share/man/man1/node.1 /usr/local/lib/dtrace/node.d
+Additionally, NVM modifies the PATH variable in $HOME/.bashrc, which must be reverted manually.
+
+// 补充：
+$ sudo rm -rf ~/.npm
+$ sudo rm -rf ~/node_modules
+$ sudo rm -rf ~/.node-gyp
+$ sudo rm /usr/local/bin/node
+$ sudo rm /usr/local/bin/npm
+$ sudo rm /usr/local/lib/dtrace/node.d
+
+// 删除nvm
+$ rm -rf ~/.nvm
+$ rm -rf ~/.npm
+$ rm -rf ~/.bower
+
+// brew卸载node
+$ brew uninstall node
+
+
+// 官网：https://nodejs.org，不推荐，手动安装版本控制坑太大，此处使用Homebrew来安装
+// 1.安装 nvm，用 nvm 控制 Node.js 的版本
+$ brew install nvm
+
+// 2.安装完成后，在 ~/.bash_profile 中添加以下内容，就可以在 bash 里面用 nvm 命令
+$ source $(brew --prefix nvm)/nvm.sh
+
+// 3.更新 .bash_profile 的缓存，使修改生效
+$ source ~/.bash_profile
+
+// 4.通过 nvm 安装 Node.js
+$ nvm install node
+
+// 5.安装完成后，查看是否安装成功
+$ nvm --version
+
+// 6.安装 cnpm，淘宝 NPM 镜像（方便网速不行的地区）
+$ npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+/*
+Summary
+通过 brew 管理 nvm，再通过 nvm 管理 node。一个管一个，方便干净。
+要是安装过后提示 node 或 npm 命令找不到，应该是之前没删干净，尝试删除干净后，再重新安装 node 或 nvm。
+*/
+
+// 常用命令：设置Node版本、切换版本、卸载版本：
+$ nvm use 16
+Now using node v16.9.1 (npm v7.21.1)
+$ node -v
+v16.9.1
+$ nvm use 14
+Now using node v14.18.0 (npm v6.14.15)
+$ node -v
+v14.18.0
+$ nvm install 12
+Now using node v12.22.6 (npm v6.14.5)
+$ node -v
+v12.22.6
+$ nvm uninstall v14.15.4
+```
+
+MAC通过brew安装nvm，再通过nvm管理node
+
+
+
+确认nodejs安装成功：
+- cmd下输入node -v，查看是否能够正确打印出版本号即可
+- cmd下输入npm -v，查看是否能够正确打印出版本号即可
+
+这个npm，就是一个软件包管理工具，就喝Linux下的apt、yum软件差不多
+
+**安装Node.js淘宝镜像加速器（cnpm），提升包下载速度**
+
+```shell script
+# 升级npm (-g 就是全局安装)
+$ npm upgrade -g
+
+# 安装CN区使用镜像安装的包
+$ npm install -g cnpm
+
+# 其它安装使用镜像方式：如下指定镜像服务器来安装包（比较麻烦）  
+$ npm install -g --registry=https://registry.npm.taobao.org vue-cli
+
+# 使用cnpm全局方式安装vue-cli
+$ cnpm install -g vue-cli
+
+# 查看全局npm安装目录（全局安装的vue-cli相关文件将在此）
+$ npm root -g
+/usr/local/Cellar/node/16.4.0/lib/node_modules
+
+# 查看当前用户npm安装目录
+$ npm root
+/Users/WenjieYang/node_modules
+
+# 查看安装的包
+$ npm list -g
+```
+#### 第一个vue-cli应用程序
+1. 创建一个Vue项目，我们随便建立一个空的文件夹，然后进入文件夹目录下
+2. 创建一个基于webpack模板的vue应用程序
+```shell script
+# 这里的chapter-2_myvue是项目名称，可以根据自己的需求起名
+$ vue init webpack chapter-2_myvue
+```
+
+说明：
+- Project name：项目名称，默认回车即可
+- Project description：项目描述，默认回车即可
+= Author：项目作者，默认回车即可
+- Install vue-router：选择no不安装（后期需要再手动添加）
+- Use ESLint to lint your code: 是否使用ESLint做代码检查？选择no不安装（后期需要再手动添加）
+- Set up unit tests：单元测试相关，选择no不安装（后期需要再手动添加）
+- Setup e2e tests with Nightwatch：端到端UI测试相关，选择no不安装（后期需要再手动添加）
+- Should we run npm install for you after the project has been created：创建完后是否直接初始化？选择no，我们手动执行看过程。
+
+一路选择no即可,初始化并运行
+
+```shell script
+
+$ npm run dev
+ DONE  Compiled successfully in 3651ms                                                                                                                                                                                                                                                                                                               下午10:14:22
+ Your application is running here: http://localhost:8080
+```
+![ReadMe_chapter-2_vue-init-webpack-artifact.jpg](ReadMe_chapter-2_vue-init-webpack-artifact.jpg)
