@@ -1,4 +1,5 @@
 # Vue学习
+## Chapter-1
 ### MVVM模式
 
 - 什么是MVVM？ - MVVM（Model-View-ViewModel）是一种软件架构设计模式，由微软WPF（用于替代WinForm，以前就是这个技术开发桌面应用程序的）
@@ -309,7 +310,11 @@ Vue的开发都是要基于Node.js，实际开发采用vue-cli脚手架开发，
 
 [ICE阿里巴巴飞冰官网](https://ice.work/)
 
+
+
+
 ---
+## Chapter-2
 ### Vue：第一个vue-cli项目
 #### 什么是vue-cli
 vue-cli是官方提供的一个脚手架，用于快速生成一个vue的项目模板；
@@ -469,3 +474,275 @@ $ npm run dev
  Your application is running here: http://localhost:8080
 ```
 ![ReadMe_chapter-2_vue-init-webpack-artifact.jpg](ReadMe_chapter-2_vue-init-webpack-artifact.jpg)
+
+
+
+
+---
+## Chapter-3
+### Vue: Webpack学习
+#### 什么是Webpack
+本质上，webpack是一个现代JavaScript应用程序的**静态模块打包器**(module bundler)。
+当Webpack处理应用程序时，它会**递归地构建一个依赖关系图**(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个bundle(package.json)。
+
+Webpack是当下最热门的前端资源模块化管理和打包工具，它可以将许多松散耦合的模块按照依赖和规则打包生成符合生产环境部署的前端资源。还可以将按需加载的
+模块进行代码分离，等到实际需要时再异步加载。通过loader转换，任何形式的资源都可以当作模块，比如CommonsJS、AMD、ES6、CSS、JSON、CoffeeScript、LESS等；
+
+伴随着移动互联网的大潮，当今越来越多的网站已经从网页模式进化到了WebApp模式。它们运行在现代浏览器里，使用HTML5、CSS3、ES6等新的技术来开发丰富的功能，
+网页已经不仅仅是完成浏览器的基本需求；WebApp通常是一个SPA（但页面应用）；每一个视图通过异步的方式加载，这导致页面初始化和使用过程中会加载越来越多的JS代码，
+这给前端开发流程和资源组织带来了巨大挑战。
+
+前端开发和其它开发工作的主要区别，首先是前端基于多语言、多层次的编码和组织工作，其次前端产品的交付是基于浏览器的，这些资源是通过增量加载的方式运行到浏览器端，
+如何在开发环境组织好这些碎片化的代码和资源，并且保证它们在浏览器端快速、优雅的加载和更新，就需要一个模块化系统，这个理想中的模块化系统是前端工程师多年来一致探索的难题。
+
+#### 模块化演进
+##### 1. Script标签
+```
+<script src="module1.js"></script>
+<script src="module2.js"></script>
+<script src="module3.js"></script>
+<script src="module4.js"></script>
+```
+这是最原始的JavaScript文件加载方式，如果把每一个文件看做是一个模块，那么它们的接口通常是暴露在全局作用域下，也就是定义在window对象中，不同模块的调用都是一个作用域。
+
+这种原始的加载方式暴露了一些显而易见的弊端：
+- 全局作用域下容易造成变量冲突
+- 文件只能按照`<script>`的书写顺序进行加载
+- 开发人员必须主观解决模块和代码库的依赖关系
+- 在大型项目中各种资源难以管理，长期积累的问题导致代码库混乱不堪
+
+##### 2. CommonsJS
+服务器端的NodeJS遵循CommonsJS规范，该规范核心思想是允许模块通过require方法来同步加载所需依赖的其它模块，然后通过exports或者module.exports来到处需要暴露的接口。
+```
+require("module");
+require("../module.js");
+export.doStuff = function() {};
+module.exports = someValue;
+```
+优点：
+- 服务端模块便于重用
+- NPM中已经有超过45万个可以使用的模块包
+- 简单易用
+
+缺点：
+- 同步的模块加载方式不适合在浏览器环境中，同步意味着阻塞加载，浏览器资源是异步加载的
+- 不能非阻塞的并行加载多个模块
+
+实现：
+- 服务端的NodeJS
+- Browserify，浏览器端的CommonsJS实现，可以使用NPM的模块，但是编译打包后的文件体积较大
+- modules-webmake，类似Browserify，但不如Browserify灵活
+- wreq，Browserify的前身
+
+##### 3. AMD
+Asynchronous Module Definition规范其实主要是一个主要接口 define(id?,dependencies?,factory); 它要在声明模块的时候指定所有依赖dependencies，
+并且还要当作形参传到factory中，对于依赖的模块提前执行。
+```
+define("module", ["dep1", "dep2"], function(d1, d2) {
+    return someExportedValue;
+});
+require(["module","../file.js"], function(module, file) {});
+```
+优点
+- 适合在浏览器环境中异步加载模块
+- 可以并行加载多个模块
+
+缺点
+- 提高了开发成本，代码的阅读和书写比较困难，模块定义方式的语义不畅
+- 不符合通用的模块化思维方式，是一种拖鞋的实现
+
+实现
+- RequireJS
+- curl
+
+##### 4. CMD
+Commons Module Definition规范和AMD很相似，尽量保持简单，并与CommonsJS和NodeJS的Modules规范保持来很大的兼容性。
+```
+define(function(require, exports, module) {
+    var $ = require("jquery");
+    var Spinning = require("./spinning");
+    exports.doSomething = ...;
+    module.exports = ...;
+});
+```
+优点：
+- 依赖就近，延迟执行
+- 可以很容易在NodeJS中执行
+
+缺点：
+- 依赖SPM打包，模块的加载逻辑偏重
+
+实现
+- Sea.js
+- coolie
+
+##### 5. ES6模块
+EcmaScript6标准增加了JavaScript语言层面的模块体系定义。ES6模块的设计思想，是尽量静态化，使编译时就能确定模块的依赖关系，以及输入和输出变量。
+CommonsJS和AMD模块，都只能在运行时确定这些东西。
+```
+import "jquery";
+exports function doStuff() {}
+module "localModule" {}
+```
+优点
+- 容易进行静态分析
+- 面向未来的EcmaScript标准
+
+缺点
+- 原生浏览器端还没有实现该标准
+- 全新的命令，新版的NodeJS才支持
+
+实现
+- Babel
+
+大家期望的模块系统
+
+可以兼容多种模块风格，近俩个可以利用已有的代码，不仅仅是JavaScript模块化，还有CSS、图片、字体等资源也需要模块化。
+
+#### 安装Webpack
+WebPack是一块模块加载器兼打包工具，它能把各种资源，如JS、JSX、ES6、SAAS、LESS、图片等都作为模块来处理和使用。
+
+安装：
+```
+npm install -g webpack
+npm install -g webpack-cli
+```
+测试安装成功：
+```
+webpack -v
+```
+##### 配置
+创建webpack.config.js配置文件
+- entry：入口文件，指定Webpack用哪个文件作为项目的入口
+- output：输出，指定Webpack把处理完成的文件放置到指定路径
+- module：模块，用于处理各种类型的文件
+- plugins：插件，如：热更新、代码重用等
+- resolve：设置路径指向
+- watch：监听，用于设置文件改动后直接打包
+```
+module.exports = {
+  entry: "",
+  output: {
+    path: "",
+    filename: ""
+  },
+  module: {
+      rules: [
+        {
+          test: /\.vue$/,
+          loader: 'vue-loader',
+          options: vueLoaderConfig
+        },
+        {
+          test: /\.js$/,
+          loader: 'babel-loader',
+          include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        },
+        ...
+      ]
+  },
+  plugins: {},
+  resolve: {},
+  watch: true
+}
+```
+直接运行webpack打包
+
+#### 使用webpack
+1. 创建项目
+
+2. 创建一个名为`modules`的目录，用于放置JS模块等资源文件
+
+3. 在modules下创建模块文件，如`hello.js`，用于编写JS模块相关代码
+```
+// 暴露一个方法：sayHi
+exports.sayHi = function() {
+    document.write("<div>Hello WebPack</div>");
+};
+```
+4. 在modules下创建一个名为`main.js`的入口文件，用于打包时设置entry属性
+```
+// require 导入一个模块，就可以调用这个模块中的方法了
+var hello = require("./hello"); // 模块引入不需要加.js后缀
+hello.sayHi();
+```
+5. 在项目目录下创建`webpack.config.js`配置文件，使用`webpack`命令打包
+```
+module.exports = {
+    entry: "./modules/main.js",
+    output: {
+        filename: "./js/bundle.js"
+    }
+}
+```
+可能遇到的问题和解决办法: [nodejs 17: digital envelope routines::unsupported #14532](https://github.com/webpack/webpack/issues/14532)
+> $ export NODE_OPTIONS=--openssl-legacy-provider
+```
+# WenjieYang @ MacBook-Pro in ~/work/intellij/kuangshen/vue/vue-first/chapter-3_webpack_config on git:master x [1:13:08] 
+$ webpack --watch
+node:internal/crypto/hash:67
+  this[kHandle] = new _Hash(algorithm, xofLen);
+                  ^
+
+Error: error:0308010C:digital envelope routines::unsupported
+    at new Hash (node:internal/crypto/hash:67:19)
+    at Object.createHash (node:crypto:130:10)
+    at BulkUpdateDecorator.hashFactory (/usr/local/Cellar/nvm/0.38.0/versions/node/v17.0.1/lib/node_modules/webpack-cli/node_modules/webpack/lib/util/createHash.js:155:18)
+    at BulkUpdateDecorator.digest (/usr/local/Cellar/nvm/0.38.0/versions/node/v17.0.1/lib/node_modules/webpack-cli/node_modules/webpack/lib/util/createHash.js:80:21)
+    at /usr/local/Cellar/nvm/0.38.0/versions/node/v17.0.1/lib/node_modules/webpack-cli/node_modules/webpack/lib/DefinePlugin.js:595:38
+    at _next30 (eval at create (/usr/local/Cellar/nvm/0.38.0/versions/node/v17.0.1/lib/node_modules/webpack-cli/node_modules/tapable/lib/HookCodeFactory.js:19:10), <anonymous>:42:1)
+    at _next8 (eval at create (/usr/local/Cellar/nvm/0.38.0/versions/node/v17.0.1/lib/node_modules/webpack-cli/node_modules/tapable/lib/HookCodeFactory.js:19:10), <anonymous>:97:1)
+    at Hook.eval [as call] (eval at create (/usr/local/Cellar/nvm/0.38.0/versions/node/v17.0.1/lib/node_modules/webpack-cli/node_modules/tapable/lib/HookCodeFactory.js:19:10), <anonymous>:117:1)
+    at Hook.CALL_DELEGATE [as _call] (/usr/local/Cellar/nvm/0.38.0/versions/node/v17.0.1/lib/node_modules/webpack-cli/node_modules/tapable/lib/Hook.js:14:14)
+    at Compiler.newCompilation (/usr/local/Cellar/nvm/0.38.0/versions/node/v17.0.1/lib/node_modules/webpack-cli/node_modules/webpack/lib/Compiler.js:1053:26) {
+  opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
+  library: 'digital envelope routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_EVP_UNSUPPORTED'
+}
+
+Node.js v17.0.1
+(base) 
+# WenjieYang @ MacBook-Pro in ~/work/intellij/kuangshen/vue/vue-first/chapter-3_webpack_config on git:master x [1:13:14] C:1
+$ export NODE_OPTIONS=--openssl-legacy-provider
+(base) 
+# WenjieYang @ MacBook-Pro in ~/work/intellij/kuangshen/vue/vue-first/chapter-3_webpack_config on git:master x [1:14:01] 
+$ webpack --watch
+asset ./js/bundle.js 232 bytes [emitted] [minimized] (name: main)
+./modules/main.js 158 bytes [built] [code generated]
+./modules/hello.js 109 bytes [built] [code generated]
+
+WARNING in configuration
+The 'mode' option has not been set, webpack will fallback to 'production' for this value.
+Set 'mode' option to 'development' or 'production' to enable defaults for each environment.
+You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/configuration/mode/
+
+webpack 5.59.1 compiled with 1 warning in 430 ms
+
+```
+6. 在项目目录下创建HTML页面，如index.html，导入Webpack打包后的JS文件
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!-- 前端模块化开发 -->
+<script src="dist/js/bundle.js"></script>
+</body>
+
+</html>
+```
+7. 在IDEA控制台中直接执行webpack:如果失败，就使用管理员权限运行即可。
+
+8. 运行HTML看效果
+
+说明：
+```
+# 参数`--watch`用于监听变化，如果有改动，可以快速热部署
+$ export NODE_OPTIONS=--openssl-legacy-provider (可能需要执行)
+$ webpack --watch
+```
