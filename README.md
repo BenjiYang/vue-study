@@ -746,3 +746,62 @@ webpack 5.59.1 compiled with 1 warning in 430 ms
 $ export NODE_OPTIONS=--openssl-legacy-provider (可能需要执行)
 $ webpack --watch
 ```
+
+
+
+
+
+
+
+---
+## Chapter-4
+### Vue: vue-router路由
+#### 说明
+Vue Router是Vue.js官方的路由管理器。它和Vue.js的核心深度集成，让构建单页面应用变得易如反掌。包含的功能有：
+- 嵌套的路由/视图表
+- 模块化的、基于组件的路由配置
+- 路由参数、查询、通配符
+- 基于Vue.js过渡系统的视图过渡效果
+- 细粒度的导航控制
+- 带有自动激活的CSS class的链接
+- HTML5历史模式或hash模式，在IE9中自动降级
+- 自定义的滚动条行为
+
+#### 安装
+基于第一个vue-cli进行测试学习；先查看node_modules中是否存在vue-router
+
+```
+$ pwd
+/Users/WenjieYang/work/intellij/kuangshen/vue/vue-first
+
+$ vue init webpack chapter-4_myvue_router
+? Project name chapter-4_myvue_router
+? Project description A Vue.js project
+? Author Bengi
+? Vue build standalone
+? Install vue-router? Yes
+? Use ESLint to lint your code? No
+? Set up unit tests No
+? Setup e2e tests with Nightwatch? No
+? Should we run `npm install` for you after the project has been created? (recommended) npm
+
+$ cd chapter-4_myvue_router  
+$ npm run dev
+```
+
+vue-router是一个插件包，所以我们还是需要用npm/cnpm来进行安装的。打开命令行工具，进入你的项目目录，输入下面命令。
+```
+$ npm install vue-router --save-dev
+```
+ 如果在一个模块化工程中使用它，必须要通过Vue.use()明确地安装路由功能：
+```
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter);
+```
+
+#### 测试
+1. 先删除没有用的东西
+2. `components`目录下存放我们自己编写的组件
+3. 定义一个`Content.vue`的组件
