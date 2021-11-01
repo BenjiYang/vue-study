@@ -381,10 +381,14 @@ $ source $(brew --prefix nvm)/nvm.sh
 $ source ~/.bash_profile
 
 // 4.通过 nvm 安装 Node.js
-$ nvm install node
+$ nvm install node （最新版本）
+$ nvm install 14.17.2 (稳定版本，兼容node-sass -v: node-sass@5.0.0, libsaas@3.5.5)
+
 
 // 5.安装完成后，查看是否安装成功
 $ nvm --version
+$ nvm current
+v14.17.2
 
 // 6.安装 cnpm，淘宝 NPM 镜像（方便网速不行的地区）
 $ npm install -g cnpm --registry=https://registry.npm.taobao.org
@@ -396,7 +400,7 @@ Summary
 */
 
 // 常用命令：设置Node版本、切换版本、卸载版本：
-$ nvm use 16
+$ nvm use 14
 Now using node v16.9.1 (npm v7.21.1)
 $ node -v
 v16.9.1
@@ -805,3 +809,67 @@ Vue.use(VueRouter);
 1. 先删除没有用的东西
 2. `components`目录下存放我们自己编写的组件
 3. 定义一个`Content.vue`的组件
+
+
+
+
+
+
+
+---
+## Chapter-5
+### Vue:实战快速上手
+实战并结合`ElementUI`组件库，将所学知识点应用到实际中，以最快速度掌握Vue使用
+#### 创建工程
+注意：命令行都要使用管理员模式运行
+
+1. 创建一个名为hello-vue到工程：`vue init webpack chapter-5_hello-vue`
+```
+# WenjieYang @ MacBook-Pro in ~/work/intellij/kuangshen/vue/vue-first on git:master x [16:42:21] 
+$ npm install vue-cli
+$ vue init webpack chapter-5_hello-vue
+
+? Project name chapter-5_hello-vue
+? Project description A Vue.js project
+? Author Bengi
+? Vue build standalone
+? Install vue-router? No
+? Use ESLint to lint your code? No
+? Set up unit tests No
+? Setup e2e tests with Nightwatch? No
+? Should we run `npm install` for you after the project has been created? (recommended) npm
+
+   vue-cli · Generated "chapter-5_hello-vue".
+
+
+# Installing project dependencies ...
+
+```
+
+2. 安装依赖，我们需要安装`vue-router`、`element-ui`、`sass-loader`和`node-sass`四个插件
+```
+# 进入工程目录测试当前步骤是否正常
+cd chapter-5_hello-vue
+npm run dev
+
+# 安装vue-router
+npm install vue-router --save-dev
+
+# 安装element-ui
+npm i element-ui -S
+
+# 安装依赖
+npm install
+
+# 安装SASS加载器
+cnpm install sass-loader node-sass --save-dev
+
+# 启动测试
+npm run dev
+```
+
+3. npm命令解释：
+- `npm install moduleName`：安装模块到项目目录下
+- `npm install -g moduleName`：`-g`到意思是将模块安装到全局，具体安装到磁盘哪个位置，要看`npm config prefix`的位置
+- `npm install --save moduleName`：`--save-dev`的意思是将模块安装到项目目录下，并在package的文件的**dependencies**节点写入依赖，`-S`为该命令的缩写
+- `npm install --save-dev moduleName`：`--save-dev`意思是将模块安装到项目目录下，并在package文件的**devDependencies**节点写入依赖，`-D`为该命令的缩写
