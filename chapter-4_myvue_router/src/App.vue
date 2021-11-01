@@ -4,6 +4,7 @@
     <h1>App page</h1>
     <router-link to="/home">跳到首页</router-link>
     <router-link to="/content">跳到内容页</router-link>
+    <router-link to="/profile">跳转到个人信息页</router-link>
     <router-view></router-view> <!-- router-view 用于展示跳转后的子组件，配合router-link使用-->
   </div>
 </template>

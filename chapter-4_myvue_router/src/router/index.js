@@ -5,6 +5,8 @@ import Router from 'vue-router'
 import HomePage from "../components/HomePage";
 // 导入自定义组件 - ContentPage
 import ContentPage from "../components/ContentPage";
+// 导入自定义组件 - ProfilePage
+import ProfilePage from "../components/ProfilePage";
 
 // 安装路由
 Vue.use(Router)
@@ -21,6 +23,11 @@ export default new Router({
       path: '/home',  // 路由路径
       name: 'home',  // 路由名称（可省略）
       component: HomePage  // 跳转到组件
+    },
+    {
+      path: '/profile',  // 路由路径
+      name: 'profile',  // 路由名称（可省略）
+      component: ProfilePage  // 跳转到组件
     }
   ]
 })
