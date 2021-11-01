@@ -862,7 +862,12 @@ npm i element-ui -S
 npm install
 
 # 安装SASS加载器
-cnpm install sass-loader node-sass --save-dev
+npm install node-sass --save-dev
+npm install sass-loader --save-dev
+
+$ node -v
+v14.17.2
+$ SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/ npm install -g node-sass@5.0.0
 
 # 启动测试
 npm run dev
