@@ -862,12 +862,12 @@ npm i element-ui -S
 npm install
 
 # 安装SASS加载器
-npm install node-sass --save-dev
-npm install sass-loader --save-dev
+npm install node-sass@4.14.1 --save-dev
+npm install sass-loader@7.3.1 --save-dev
 
 $ node -v
 v14.17.2
-$ SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/ npm install -g node-sass@5.0.0
+$ SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/ npm install node-sass@4.14.1
 
 # 启动测试
 npm run dev
@@ -878,3 +878,5 @@ npm run dev
 - `npm install -g moduleName`：`-g`到意思是将模块安装到全局，具体安装到磁盘哪个位置，要看`npm config prefix`的位置
 - `npm install --save moduleName`：`--save-dev`的意思是将模块安装到项目目录下，并在package的文件的**dependencies**节点写入依赖，`-S`为该命令的缩写
 - `npm install --save-dev moduleName`：`--save-dev`意思是将模块安装到项目目录下，并在package文件的**devDependencies**节点写入依赖，`-D`为该命令的缩写
+
+拓展： 生成文档：https://docsify.js.org/#/
