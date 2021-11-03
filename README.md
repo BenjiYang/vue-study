@@ -880,3 +880,9 @@ npm run dev
 - `npm install --save-dev moduleName`：`--save-dev`意思是将模块安装到项目目录下，并在package文件的**devDependencies**节点写入依赖，`-D`为该命令的缩写
 
 拓展： 生成文档：https://docsify.js.org/#/
+
+#### 路由嵌套
+嵌套路由又称子路由，在实际应用中，通常由多层嵌套的组件组合而成。同样地，URL中各段动态路径也按某种结构对应嵌套的各层组件，例如：
+/user/foo/profile, /user/foo/list
+
+1. 用户信息组件，在views/user目录下创建一个名为Profile.vue的视图组件

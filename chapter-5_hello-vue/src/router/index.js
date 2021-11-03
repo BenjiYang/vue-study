@@ -4,6 +4,8 @@ import Router from 'vue-router'
 // 导入自定义组件
 import Main from '../views/Main'
 import Login from "../views/Login"
+import UserProfile from "../views/user/Profile"
+import UserList from "../views/user/List"
 
 // 安装路由
 Vue.use(Router);
@@ -17,7 +19,15 @@ export default new Router({
     },
     {
       path: '/login',  // 路由路径
-      component: Login  // 跳转到组件
+      component: Login,  // 跳转到组件
+      children: [
+        {
+          path: '/profile', component: UserProfile
+        },
+        {
+          path: '/list', component: UserList
+        }
+      ]
     }
   ]
 })
