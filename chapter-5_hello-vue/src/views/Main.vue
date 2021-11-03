@@ -41,6 +41,7 @@
               <el-dropdown-item>退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
+          <span>当前登陆用户：{{name}}</span>
         </el-header>
         <el-main>
           <!--在这里展示视图-->
@@ -52,7 +53,8 @@
 </template>
 <script>
   export default {
-    name: "Main"
+    name: "Main",
+    props: ['name']
   }
 </script>
 <style scoped lang="scss">
