@@ -8,8 +8,8 @@
             <template slot="title"><i class="el-icon-caret-right"></i>用户管理</template>
             <el-menu-item-group>
               <el-menu-item index="1-1">
-                <!--插入的地方-->
-                <router-link to="/user/profile">个人信息</router-link>
+                <!--插入的地方: name:组件名；params:路由参数；v-bind绑定对象 -->
+                <router-link :to="{name: 'UserProfile', params:{id: 1}}">个人信息</router-link>
               </el-menu-item>
               <el-menu-item index="1-2">
                 <!--插入的地方-->

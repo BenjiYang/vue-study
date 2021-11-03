@@ -15,19 +15,15 @@ export default new Router({
   routes: [
     {
       path: '/main',  // 路由路径
-      component: Main  // 跳转到组件
+      component: Main,  // 跳转到组件
+      children: [
+        {path: '/user/profile/:id', name: 'UserProfile', component: UserProfile},
+        {path: '/user/list', name: 'UserList', component: UserList}
+      ]
     },
     {
       path: '/login',  // 路由路径
-      component: Login,  // 跳转到组件
-      children: [
-        {
-          path: '/profile', component: UserProfile
-        },
-        {
-          path: '/list', component: UserList
-        }
-      ]
+      component: Login  // 跳转到组件
     }
   ]
 })
