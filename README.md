@@ -975,3 +975,25 @@ Vue 中的重定向是作用在路径不同但组件相同的情况
     <router-link to="/goHome">返回首页</router-link>
 </el-menu-item>
 ```
+
+#### 路由模式、404和路由钩子
+##### 路由模式
+路由模式有两种
+- hash：默认模式，路径带 # 符号，如 http://localhost/#/login
+- history：路径不带 # 符号，如 http://localhost/login
+修改路由配置
+```
+export default new VueRouter({
+  mode:'history',
+  routes: []
+  )}
+```
+##### 404页面
+全局路由不匹配时的404页面
+创建全局404组件页面后在路由中加一个路由规则即可
+```
+    { // 重定向的写法
+      path: '*',  // 上面的所有请求都无法匹配的话，走*的URL匹配，此时赚到NotFound组件页面
+      component: NotFound
+    }
+```

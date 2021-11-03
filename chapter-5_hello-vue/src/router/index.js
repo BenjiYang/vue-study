@@ -6,12 +6,14 @@ import Main from '../views/Main'
 import Login from "../views/Login"
 import UserProfile from "../views/user/Profile"
 import UserList from "../views/user/List"
+import NotFound from "../views/NotFound";
 
 // 安装路由
 Vue.use(Router);
 
 // 路由器控制路由
 export default new Router({
+  mode: 'history', // 去掉URL中的#号
   routes: [
     {
       path: '/main/:name',  // 路由路径
@@ -29,6 +31,10 @@ export default new Router({
     { // 重定向的写法
       path: '/goHome',
       redirect: '/main'
+    },
+    { // 重定向的写法
+      path: '*',  // 上面的所有请求都无法匹配的话，走*的URL匹配，此时赚到NotFound组件页面
+      component: NotFound
     }
   ]
 })
