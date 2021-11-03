@@ -24,6 +24,10 @@ export default new Router({
     {
       path: '/login',  // 路由路径
       component: Login  // 跳转到组件
+    },
+    { // 重定向的写法
+      path: '/goHome',
+      redirect: '/main'
     }
   ]
 })

@@ -15,6 +15,10 @@
                 <!--插入的地方-->
                 <router-link to="/user/list">用户列表</router-link>
               </el-menu-item>
+              <el-menu-item index="1-3">
+                <!--插入的地方-->
+                <router-link to="/goHome">回到首页</router-link>
+              </el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
