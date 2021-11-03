@@ -997,3 +997,109 @@ export default new VueRouter({
       component: NotFound
     }
 ```
+
+##### 路由钩子
+除了之前的钩子函数还存在两个钩子函数
+- beforeRouteEnter：在进入路由前执行
+- beforeRouteLeave：在离开路由前执行
+在 Profile.vue 使用
+```
+<script>
+    export default {
+        props: ['id'],   // 路由参数传递方式2：以组件的方式将属性'id'导出，且在Main组件中通过路由绑定
+        name: "UserProfile",
+        // 路由钩子函数，to,from,next，a.k.a."过滤器"
+        beforeRouteEnter: (to, from, next)=> {
+          console.log("进入路由之前");
+          next();
+        },
+        beforeRouteLeave: (to, from, next)=> {
+          console.log("离开路由之前");
+          next();
+        },
+    }
+</script>
+```
+参数说明：
+- to：路由将要跳转的路径信息
+- from：路径跳转前的路径信息
+- next：路由的控制参数
+- next() 跳入下一个页面
+- next(’/path’) 改变路由的跳转方向，使其跳到另一个路由
+- next(false) 返回原来的页面
+- next((vm)=>{}) 仅在 beforeRouteEnter 中可用，vm 是组件实例
+
+**在钩子函数中进行异步请求**
+
+1. 安装Axios
+> npm install --save vue-axios
+2. main.js引用 Axios
+```
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
+```
+3. 准备数据：只有我们的 static 目录下的文件是可以被访问到的，所以我们就把静态文件放入该目录下
+```
+{
+  "name": "GitHub",
+  "url": "https://github.com/",
+  "page": 1,
+  "isNonProfit": true,
+  "address": {
+    "street": "含光门",
+    "city": "陕西西安",
+    "country": "中国"
+  },
+  "links": [
+    {
+      "name": "bilibili",
+      "url": "https://space.bilibili.com/95256449"
+    },
+    {
+      "name": "GitHub",
+      "url": "https://github.com/"
+    },
+    {
+      "name": "百度",
+      "url": "https://www.baidu.com/"
+    }
+  ]
+}
+```
+4. 在 beforeRouteEnter 中进行异步请求
+```
+<script>
+    export default {
+        props: ['id'],   // 路由参数传递方式2：以组件的方式将属性'id'导出，且在Main组件中通过路由绑定
+        name: "UserProfile",
+        // 路由钩子函数，to,from,next，a.k.a."过滤器"
+        beforeRouteEnter: (to, from, next)=> {
+          console.log("进入路由之前");
+          //next();
+          next(vm => {
+            vm.getData(); // 进入路由之前执行该方法
+          })
+        },
+        beforeRouteLeave: (to, from, next)=> {
+          console.log("离开路由之前");
+          next();
+        },
+        methods: {
+          getData: function() {
+            this.axios({
+              method: 'get',
+              url: 'http://localhost:8080/static/mock/data.json'
+            }).then(function(response) {
+              console.log(response)
+            });
+          }
+        }
+    }
+</script>
+```
+![ReadMe_chapter-5_路由钩子vm.jpg](ReadMe_chapter-5_路由钩子vm.jpg)
+
+
+完结撒花，但又没有完全完结！！官网继续学习！！！
+chapter-5之后参考了某个学习同学的文档：https://blog.csdn.net/qq_45408390/article/details/118151297
