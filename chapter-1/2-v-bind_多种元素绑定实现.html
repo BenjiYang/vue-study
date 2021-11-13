@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-bind测试</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+
+<h1>v-bind 案例</h1>
+<hr>
+<div id="app">
+    1. 标签img的属性src绑定，全写"v-bind:src"，简写":src" ==>
+    <img v-bind:src="data_img" width="200px"><br/>
+
+    <hr>
+    2. 标签a的属性href绑定
+    <a :href="data_a" target="_blank">点击新窗口打开bing.com</a>
+
+    <hr>
+    3. 绑定class
+    <div :class="classA">3.1、绑定classA - color:red</div>
+    <div :class="classB">3.1、绑定classB - font-size:150%</div>
+    <div :class="[classA,classB]">3.2、绑定class中的数组 - :class="[classA,classB]</div>
+    <p/>
+    <input type="checkbox" id="isTrue" v-model="isOk">
+    <label for='isTrue'>isOk={{isOk}}</label>
+    <div :class="isOk?classA:classB">3.3、绑定class中的三元表达式判断 - (:class="isOk?classA:classB")</div>
+
+    <hr>
+    4. 标签style属性绑定
+    <div :style="{color:red,fontSize:font}">4.1、绑定style - :style="{color:red,fontSize:font}"</div>
+    <div :style="styleObject">4.2、用对象绑定style样式 - :style="styleObject"</div>
+
+</div>
+
+<style>
+    .css_styleA {
+        color: red;
+    }
+
+    .css_styleB {
+        font-size: 150%
+    }
+</style>
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            data_img: 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png',
+            data_a: 'https://cn.bing.com/',
+            isOk: false,
+            classA: 'css_styleA',
+            classB: 'css_styleB',
+            red: 'red',
+            font: '30px',
+            styleObject: {
+                fontSize: '24px',
+                color: 'green'
+            }
+        }
+    })
+</script>
+
+</body>
+</html>

@@ -8,24 +8,34 @@
 <body>
 
 <div id="app">
-    1. input(text)标签输入的文本：<input type="text" v-model="message">
 
-    <p/>
-    2. textarea标签输入的文本：<textarea v-model="message"></textarea>
-    <h3>您输入的信息为：{{message}}</h3>
+    <h3>您输入的信息为：^开始{{message}}结束$</h3>
 
-    <p/>
-    3. input(radio)标签单选框选择的选项：
-    <!-- v-model="sexChecked" 与 value="男性别" 绑定-->
+    <h3>文本框</h3>
+
+    <p>1.1 input(text)标签输入的文本，v-model：<input type="text" v-model="message"></p>
+    <p>1.2 input(text)标签输入的文本，v-model.lazy：<input type="text" v-model.lazy="message"></p>
+    <p>1.3 input(text)标签输入的文本，v-model.number：<input type="text" v-model.number="message"></p>
+    <p>1.4 input(text)标签输入的文本，v-model.trim：<input type="text" v-model.trim="message"></p>
+
+    <hr>
+    <p>2. textarea标签输入的文本，v-model：<textarea v-model="message"></textarea></p>
+    <p>2. textarea标签输入的文本，v-model.lazy：<textarea v-model.lazy="message"></textarea></p>
+    <p>2. textarea标签输入的文本，v-model.number：<textarea v-model.number="message"></textarea></p>
+    <p>2. textarea标签输入的文本，v-model.trim：<textarea v-model.trim="message"></textarea></p>
+
+    <hr>
+    <p>3. input(radio)标签单选框选择的选项：</p>
+    <!-- v-model 与属性 value 的值绑定，input radio选中后替换成value的值 -->
     <input type="radio" name="sex" value="男性别" v-model="sexChecked"> 男
     <input type="radio" name="sex" value="女性别" v-model="sexChecked"> 女
     <h3>选中了谁：{{sexChecked}}</h3>
 
-    <p/>
-    4. select标签下拉框选择的选项：
+    <hr>
+    <p>4. select标签下拉框选择的选项：</p>
     <select name="" id="" v-model="dropdown">
-        <!-- 注意：如果v-model表达式的初始值未能匹配任何选项，<select>元素将被渲染为"未选择"状态。在iOS中，这回使用户无法选择第一个选项，
-        因为这样的情况下，iOS不会触发change事件。因此，更推荐像上面这样提供一个值为空的金庸选项。 -->
+        <!-- 注意：如果v-model表达式的初始值未能匹配任何选项，<select>元素将被渲染为"未选择"状态。在iOS中，这会使用户无法选择第一个选项，
+        因为这样的情况下，iOS不会触发change事件。因此，更推荐像下面这样提供一个值为空的禁用选项。 -->
         <option value="" disabled>--请选择--</option>
         <option>A</option>
         <option selected>B</option> <!-- 默认选中 selected, 会被Vue覆盖成默认''-->
@@ -33,15 +43,32 @@
     </select>
     <h3>下拉框选项选中了谁：{{dropdown}}</h3>
 
+    <hr>
+    <h3>5. checkbox绑定toggle布尔值</h3>
+    <input type="checkbox" id="checkboxID" v-model="checkbox_toggle">   <!-- v-model值与checkbox boolean值绑定，选中为true -->
+    <label for='checkboxID'>{{checkbox_toggle}}</label>     <!-- 主要用于显示true or false文本 -->
+    <hr>
+    <h3>6. checkbox多选绑定数组</h3>
+    <p>
+        <input type="checkbox" id="test1" value="Alice" v-model="str_array">
+        <label for="test1">Alice</label><br/>
+        <input type="checkbox" id="test2" value="Ben" v-model="str_array">
+        <label for="test2">Ben</label><br/>
+        <input type="checkbox" id="test3" value="Cathy" v-model="str_array">
+        <label for="test3">Cathy</label>
+    <p>{{str_array}}</p>
+
 </div>
 
 <script type="text/javascript">
     var vm = new Vue({
         el: "#app",
         data: {
-            message: "默认值123",
+            message: "hello Vue!",
             sexChecked: '默认未选性别',
-            dropdown: ''   // 此处值在下拉框option的值无匹配的话，则默认UI下拉框选择空
+            dropdown: '',   // 此处值在下拉框option的值无匹配的话，则默认UI下拉框选择空
+            checkbox_toggle: true,
+            str_array: []
         }
     })
 </script>
