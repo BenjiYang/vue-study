@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+
+<h1>vue.directive 自定义指令</h1>
+<hr>
+<div id="app">
+    <div v-my-command-red="color">
+        {{num}}
+    </div>
+    <p>
+        <button @click='increaseNum'>加分</button>
+    </p>
+    <p>
+        <button onclick='unbind()'>解绑</button>
+    </p>
+</div>
+
+<script type="text/javascript">
+
+    function unbind() {
+        app.$destroy();
+    }
+
+    // 自定义指令，使用Vue全局API方法，生成全局自定义指令"v-my-command-red"
+    Vue.directive('my-command-red', {
+        bind: function (el, binding, vnode) {  // bind:只调用一次，指令第一次绑定到元素时调用，用这个钩子函数可以定义一个绑定时执行一次的初始化动作。
+            /**
+             var s=JSON.stringify;
+             el.innerHTML =
+             'name:'        + s(binding.name) +'<br>' +
+             'value:'       + s(binding.value) +'<br>' +
+             'expression:'  + s(binding.expression) +'<br>' ;
+             **/
+            el.style = 'color:' + binding.value;
+            console.log('1 - bind');
+        },
+        inserted: function () {    // inserted:被绑定元素插入父节点时调用（父节点存在即可调用，不必存在于document中）。
+            console.log('2 - inserted');
+        },
+        update: function () {      // update:被绑定于元素所在的模板更新时调用，而无论绑定值是否变化。通过比较更新前后的绑定值，可以忽略不必要的模板更新。
+            console.log('3 - update');
+        },
+        componentUpdated: function () {    // componentUpdated:被绑定元素所在模板完成一次更新周期时调用。
+            console.log('4 - componentUpdated');
+        },
+        unbind: function () {      // unbind:只调用一次，指令与元素解绑时调用。
+            console.log('5 - unbind');
+        }
+
+    })
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            color: 'red',
+            num: 10
+        },
+        methods: {
+            increaseNum: function () {
+                this.num++;
+            }
+        }
+    })
+</script>
+
+
+</body>
+</html>
