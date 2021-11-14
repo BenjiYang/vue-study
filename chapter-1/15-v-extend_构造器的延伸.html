@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+
+<h1>vue.directive 自定义指令</h1>
+<hr>
+<div id="app">
+    <div v-my-command-red="color">
+        {{num}}
+    </div>
+    <p>
+        <button @click='increaseNum'>加分</button>
+    </p>
+    <p>
+        <button onclick='unbind()'>解绑</button>
+    </p>
+</div>
+
+<h1>Vue.extend</h1>
+<hr>
+<author></author>   <!-- 挂在方式一 -->
+<div id="author"></div> <!-- 挂在方式二 -->
+
+<script type="text/javascript">
+    var authorExtend = Vue.extend({
+        template:"<p><a :href='authorUrl'>{{authorName}}</a></p>",
+        data:function(){
+            return{
+                authorName:'JSPang',
+                authorUrl:'http://jspang.com'
+            }
+        }
+    });
+    console.log(new authorExtend());
+    // 挂在方式一： <author></author>
+    new authorExtend().$mount('author');
+    // 挂载方式二： <div id="author"></div>
+    new authorExtend().$mount('#author');
+</script>
+
+
+</body>
+</html>
